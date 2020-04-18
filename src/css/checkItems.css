@@ -1,0 +1,21 @@
+.button {
+  background-color: #e9ecef;
+  height: 2rem;
+  border: none;
+  cursor: pointer;
+  color: #5e6c84;
+  outline: none;
+}
+.button:hover {
+  background-color: rgba(9, 30, 66, 0.08);
+  color: #172b4d;
+  border-radius: 0.3rem;
+}
+.checklist-header {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+}
+.form-check-label {
+  cursor: pointer;
+}

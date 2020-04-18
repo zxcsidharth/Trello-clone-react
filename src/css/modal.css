@@ -1,0 +1,25 @@
+#checklistBtn {
+  height: 2.5rem;
+  margin-top: 1rem;
+  background-color: #e9ecef;
+  color: #5e6c84;
+  padding: 0.4rem 0.4rem;
+  padding-right: 5rem;
+  border: none;
+  /* background-color: transparent; */
+  outline: none;
+  cursor: pointer;
+}
+#checklistBtn:hover {
+  background-color: rgba(9, 30, 66, 0.08);
+  color: #172b4d;
+  border-radius: 0.3rem;
+}
+
+.modal-content {
+  /* background-color: #e9ecef; */
+  width: 50vw;
+}
+.modal {
+  overflow-y: auto;
+}

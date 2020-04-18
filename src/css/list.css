@@ -1,0 +1,50 @@
+.list {
+  padding: 0px 0px;
+  width: 20%;
+  /* max-height: 100vh; */
+  margin-left: 10px;
+  margin-bottom: 25px;
+}
+.card-container {
+  max-height: 70vh;
+  width: 100%;
+  overflow: auto;
+  margin-top: 0.6rem;
+}
+.delete-card {
+  height: 2rem;
+}
+.card {
+  margin: auto 0.5rem 0.3rem 0.5rem;
+  display: grid;
+  grid-template-rows: 100%;
+  grid-template-columns: 85% 15%;
+}
+.card-body {
+  cursor: pointer;
+  color: #172b4d;
+  font-size: 0.9rem;
+  padding: 0.4rem 1rem 0.4rem 0.3rem;
+}
+.list-bottom {
+  margin-top: 0.8rem;
+  padding-bottom: 0.8rem;
+  margin-left: 0.5rem;
+}
+#addAnotherCard {
+  color: #5e6c84;
+  padding: 0.4rem 0.4rem;
+  padding-right: 5rem;
+  border: none;
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+}
+#addAnotherCard:hover {
+  background-color: rgba(9, 30, 66, 0.08);
+  color: #172b4d;
+  border-radius: 0.3rem;
+}
+.delete-card {
+  height: 2rem;
+}
