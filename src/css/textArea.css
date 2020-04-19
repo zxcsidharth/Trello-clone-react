@@ -4,3 +4,15 @@
 /* .create-textarea {
   margin-top: 1rem;
 } */
+.btn-cancel {
+  color: #6b778c;
+  line-height: 3px;
+  background-color: transparent;
+  border: none;
+  font-size: 3em;
+  outline: none;
+  /* margin-top: 0rem; */
+}
+.btn-cancel:hover {
+  color: #172b4d;
+}

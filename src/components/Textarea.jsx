@@ -2,9 +2,8 @@ import React from "react";
 import "../css/textArea.css";
 
 function Textarea(props) {
-  console.log(props);
   return (
-    <div className="create-textarea mt-2" id="titleSpace">
+    <div className="create-textarea" id="titleSpace">
       <div className="form-group text-area">
         <textarea
           className="form-control"
@@ -14,17 +13,17 @@ function Textarea(props) {
       </div>
       <button
         type="button"
-        className="btn btn-success mr-2"
+        className="btn btn-success mr-1"
         onClick={props.onAddBtn}
       >
         Add
       </button>
       <button
         type="button"
-        className="btn btn-danger"
+        className="btn btn-cancel"
         onClick={props.onCancelBtn}
       >
-        Cancel
+        &times;
       </button>
     </div>
   );

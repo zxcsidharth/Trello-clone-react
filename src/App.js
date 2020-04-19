@@ -1,14 +1,13 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.css';
-import Nav from './components/Nav';
-import List from './components/List';
+import React from "react";
+import "bootstrap/dist/css/bootstrap.css";
+import Board from "./components/Board";
+import Nav from "./components/Nav";
 
 function App() {
   return (
     <React.Fragment>
-      <Nav value = {"header"}/>
-      <Nav value = {"sidharth_app"}/>
-      <List />
+      <Nav value={"header"} />
+      <Board />
     </React.Fragment>
   );
 }

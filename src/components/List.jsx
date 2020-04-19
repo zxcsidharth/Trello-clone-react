@@ -24,7 +24,7 @@ class List extends Component {
     };
   }
   componentDidMount() {
-    let url = `${base_url}lists/${list_id}/cards?key=${APIkey}&token=${token}`;
+    let url = `${base_url}lists/${this.props.listId}/cards?key=${APIkey}&token=${token}`;
     fetch(url)
       .then((response) => {
         return response.json();
@@ -44,7 +44,7 @@ class List extends Component {
     this.setState({ visibleTextArea: false });
   };
   handleAddToCard = () => {
-    let url = `${base_url}cards?name=${this.state.inputCardTitle}&idList=${list_id}&key=${APIkey}&token=${token}`;
+    let url = `${base_url}cards?name=${this.state.inputCardTitle}&idList=${this.props.listId}&key=${APIkey}&token=${token}`;
     console.log(url);
     fetch(url, {
       method: "POST",
@@ -97,9 +97,15 @@ class List extends Component {
 
   render() {
     return (
-      <div className="jumbotron list" id="lists">
+      <div className="jumbotron list">
         <div className="list-top">
-          <p className="list-title ml-2 mt-1 pt-2">{list_name}</p>
+          <p className="list-title ml-2 mt-1 pt-2">{this.props.listName}</p>
+          <button
+            className="button delete mt-2"
+            onClick={() => this.props.onDeleteList(this.props.listId)}
+          >
+            <i className="fa fa-trash"></i>
+          </button>
         </div>
         <div className="card-container">
           {this.state.cards.map((card) => (
@@ -121,7 +127,7 @@ class List extends Component {
             />
           ) : (
             <button id="addAnotherCard" onClick={this.handleAddCards}>
-              <span>+</span>Add Another Card
+              <span className="add-symbol mr-1">+</span>Add Another Card
             </button>
           )}
         </div>

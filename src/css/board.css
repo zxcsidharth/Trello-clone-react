@@ -1,0 +1,36 @@
+div::selection {
+  background: transparent;
+}
+
+.all-lists {
+  overflow-x: auto;
+  white-space: nowrap;
+  height: 85vh;
+}
+.boards {
+  background-color: rgb(240, 153, 82);
+}
+#addAnotherList {
+  color: #fff;
+  cursor: pointer;
+  background-color: hsla(0, 0%, 100%, 0.24);
+  border-radius: 3px;
+  height: auto;
+  min-height: 40px;
+  width: 100%;
+  outline: none;
+  border: none;
+  text-align: left;
+}
+#addAnotherlist:hover {
+  background-color: hsla(0, 0%, 100%, 0.32);
+}
+.add-symbol {
+  font-size: 1.3rem;
+}
+.add-list {
+  display: inline-block;
+  width: 20%;
+  margin-left: 0.7em;
+  margin-right: 0.7em;
+}
