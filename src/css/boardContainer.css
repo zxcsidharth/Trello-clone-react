@@ -1,0 +1,25 @@
+.board-tab {
+  color: #0079bf;
+  background-color: #e4f0f6;
+  width: 100%;
+  text-align: left;
+  border: none;
+  outline: none;
+  border-radius: 4px;
+  height: 35px;
+}
+.board-cards {
+  text-decoration: none;
+  display: flex;
+  flex-wrap: wrap;
+  overflow-x: hidden;
+}
+.boards-card-container {
+  height: 90px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  color: white;
+}
+.boards-card-container:hover {
+  background-color: rgba(199, 182, 182, 0.3);
+}

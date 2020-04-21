@@ -16,7 +16,7 @@ function Textarea(props) {
         className="btn btn-success mr-1"
         onClick={props.onAddBtn}
       >
-        Add
+        Add {props.buttonTitle}
       </button>
       <button
         type="button"

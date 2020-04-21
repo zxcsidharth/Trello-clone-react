@@ -34,3 +34,6 @@ div::selection {
   margin-left: 0.7em;
   margin-right: 0.7em;
 }
+.board-nav {
+  color: #fff;
+}

@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import "../css/board.css";
 import List from "./List";
-import { APIkey, token, board_id, base_url } from "../constant";
+import { APIkey, token, base_url } from "../constant";
 import Textarea from "./Textarea";
+import Nav from "./Nav";
 
 class Board extends Component {
   constructor(props) {
@@ -11,10 +12,11 @@ class Board extends Component {
       lists: [],
       showTextArea: false,
       inputListName: "",
+      showBoardModal: false,
     };
   }
   componentDidMount() {
-    let url = `${base_url}/boards/${board_id}/lists?key=${APIkey}&token=${token}`;
+    let url = `${base_url}/boards/${this.props.match.params.boardId}/lists?key=${APIkey}&token=${token}`;
     fetch(url)
       .then((response) => {
         return response.json();
@@ -37,7 +39,7 @@ class Board extends Component {
     this.setState({ inputListName: e.target.value });
   };
   handleAddList = () => {
-    let url = `${base_url}/boards/${board_id}/lists?name=${this.state.inputListName}&key=${APIkey}&token=${token}`;
+    let url = `${base_url}/boards/${this.props.match.params.boardId}/lists?name=${this.state.inputListName}&key=${APIkey}&token=${token}`;
     fetch(url, {
       method: "POST",
       headers: {
@@ -56,14 +58,35 @@ class Board extends Component {
       });
   };
   deleteList = (listId) => {
-    let url = `{}`;
+    let url = `{base_url}/`;
+  };
+  showBoardModals = () => {
+    this.setState({ showBoardModal: true });
   };
   render() {
     // const lists = this.state.lists;
+    // console.log(this.props);
     return (
-      <div className="boards">
+      <div className="boards" style={{ backgroundColor: "black" }}>
+        <Nav showBoardModals={this.showAllBoardModals} />
         <nav className="navbar bg-transparent board-nav">
-          <h6>Board Name</h6>
+          <div style={{ display: "flex" }}>
+            <h5>{this.props.match.params.boardName}</h5>
+            <button className="navBtn trello-Boards mb-3 ml-3">
+              <i className="fa fa-star-o"></i>
+            </button>
+          </div>
+          <div className="board-header">
+            <button className="navBtn trello-Boards mb-3 ml-1">
+              <i className="fa fa-star-o"></i> Butler
+            </button>
+            <button className="navBtn trello-Boards mb-3 ml-1">
+              <i className="fa fa-slack"></i> Slack
+            </button>
+            <button className="navBtn trello-Boards mb-3 ml-1">
+              <i className="fa fa-ellipsis-h mr-2"></i> Show Menu
+            </button>
+          </div>
         </nav>
         <div className="all-lists">
           {this.state.lists.map((list) => (

@@ -8,8 +8,6 @@ function Card(props) {
       <div
         className="card-body"
         data-cardid={props.card.id}
-        data-toggle="modal"
-        data-target="#modalForCards"
         onClick={() => props.OnClickModal(props.card)}
       >
         {props.card.name}

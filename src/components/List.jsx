@@ -102,6 +102,7 @@ class List extends Component {
           <p className="list-title ml-2 mt-1 pt-2">{this.props.listName}</p>
           <button
             className="button delete mt-2"
+            style={{ marginRight: "0.7em" }}
             onClick={() => this.props.onDeleteList(this.props.listId)}
           >
             <i className="fa fa-trash"></i>
