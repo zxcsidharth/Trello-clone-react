@@ -93,9 +93,15 @@ class Modal extends Component {
         className="modal d-block"
         id="modalForCards"
         style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
+        onClick={this.props.onClickOutsideModal}
       >
         <div className="modal-dialog modal-lg">
-          <div className="modal-content">
+          <div
+            className="modal-content"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
             <div className="modal-header">
               <h5 className="modal-title" id="modalTitle">
                 {cardDetail.name}

@@ -63,7 +63,7 @@ class BoardContainer extends Component {
   render() {
     return (
       <React.Fragment>
-        <Nav value={"header"} />
+        <Nav />
         <div className="all-boards mt-5">
           <div className="row">
             <div className="col-md-2 offset-md-1">

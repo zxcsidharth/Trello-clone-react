@@ -1,18 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../css/boardContainer.css";
-import { APIkey, token, base_url } from "../constant";
+import { APIkey, token } from "../constant";
 function BoardsListCard(props) {
-  // let imageLink;
-  // let color;
-  // if (props.image) {
-  //   imageLink = props.image.substring(61);
-  //   color = "";
-  //   console.log(imageLink, color);
-  // } else {
-  //   imageLink = "";
-  //   color = props.color;
-  // }
   return (
     <Link
       to={`/${props.id}/${props.boardName}`}
