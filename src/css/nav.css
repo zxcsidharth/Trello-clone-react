@@ -18,6 +18,8 @@
   color: #fff;
   height: 32px;
   border: none;
+}
+.navBtn:focus {
   outline: none;
 }
 .navBtn:hover {

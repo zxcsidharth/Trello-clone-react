@@ -67,7 +67,7 @@ class Board extends Component {
     // const lists = this.state.lists;
     // console.log(this.props);
     return (
-      <div className="boards" style={{ backgroundColor: "black" }}>
+      <div className="boards" style={{ backgroundColor: "rgb(0, 121, 191)" }}>
         <Nav showBoardModals={this.showAllBoardModals} />
         <nav className="navbar bg-transparent board-nav">
           <div style={{ display: "flex" }}>
