@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import Board from "./components/Board";
 import BoardContainer from "./components/BoardContainer";

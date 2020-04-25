@@ -18,10 +18,12 @@
   color: #fff;
   height: 32px;
   border: none;
-  outline: none;
 }
 .navBtn:hover {
   background-color: hsla(0, 0%, 100%, 0.2);
+}
+.navBtn:focus {
+  outline: none;
 }
 .fa-ellipsis-v {
   font-size: 1.2em;
