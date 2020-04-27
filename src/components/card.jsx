@@ -1,6 +1,5 @@
 import React from "react";
 import "../css/list.css";
-// import "bootstrap/dist/css/bootstrap.css";
 
 function Card(props) {
   return (

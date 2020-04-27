@@ -23,7 +23,7 @@ function Nav(props) {
           <i className="fa fa-trello mr-1"></i>
           <span>Boards</span>
         </button>
-        <div className="navBtn search-box mb-3 ml-1">
+        <div className="search-box mb-3 ml-1">
           <input type="text" className="form-control-inline input" />
           <button className="navBtn trello-search">
             <i className="fa fa-search mr-1"></i>

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import TextFieldForitems from "./TextFieldForItems";
 
 class CheckItems extends Component {
   constructor(props) {

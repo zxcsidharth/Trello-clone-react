@@ -1,41 +1,23 @@
 import React, { Component } from "react";
 import "../css/list.css";
 import Card from "./card";
-import {
-  APIkey,
-  token,
-  board_id,
-  list_id,
-  list_name,
-  base_url,
-} from "../constant";
 import Textarea from "./Textarea";
 import Modal from "./Modal";
+import { fetchCards, createCard, deleteCard } from "../actions/actionOnList";
+import { connect } from "react-redux";
 
 class List extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cards: [],
       visibleTextArea: false,
       inputCardTitle: "",
       showModal: false,
-      cardDetails: {},
+      cardDetails: { id: "", name: "" },
     };
   }
   componentDidMount() {
-    let url = `${base_url}lists/${this.props.listId}/cards?key=${APIkey}&token=${token}`;
-    fetch(url)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log("successfully fetched");
-        this.setState({ cards: data });
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    this.props.fetchCards(this.props.listId);
   }
   handleAddCards = (e) => {
     this.setState({ visibleTextArea: true });
@@ -43,53 +25,15 @@ class List extends Component {
   handleCancelBtn = () => {
     this.setState({ visibleTextArea: false });
   };
-  handleAddToCard = () => {
-    let url = `${base_url}cards?name=${this.state.inputCardTitle}&idList=${this.props.listId}&key=${APIkey}&token=${token}`;
-    console.log(url);
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        let card = [...this.state.cards];
-        card.push(data);
-        this.setState({ visibleTextArea: false });
-        this.setState({ cards: card });
-        console.log("Success:", data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
   handleInputValue = (e) => {
     this.setState({ inputCardTitle: e.target.value });
     console.log(this.state.inputCardTitle);
   };
-  handleDeleteCard = (cardId) => {
-    let url = `${base_url}cards/${cardId}?key=${APIkey}&token=${token}`;
-    fetch(url, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        const updatedCards = this.state.cards.filter((card) => {
-          return card.id !== cardId;
-        });
-        this.setState({ cards: updatedCards });
-        console.log("Successfully removed");
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
   handleModalClick = (cardDetail) => {
-    this.setState({ cardDetails: cardDetail, showModal: true });
+    let cardDet = { ...this.state.cardDetails };
+    cardDet.id = cardDetail.id;
+    cardDet.name = cardDetail.name;
+    this.setState({ cardDetails: cardDet, showModal: true });
   };
   closeModal = () => {
     this.setState({ showModal: false });
@@ -109,21 +53,30 @@ class List extends Component {
           </button>
         </div>
         <div className="card-container">
-          {this.state.cards.map((card) => (
-            <Card
-              key={card.id}
-              card={card}
-              onDelete={this.handleDeleteCard}
-              OnClickModal={this.handleModalClick}
-            />
-          ))}
+          {this.props.cards[this.props.listId] !== undefined &&
+            this.props.cards[this.props.listId].map((card) => (
+              <Card
+                key={card.id}
+                card={card}
+                onDelete={() =>
+                  this.props.deleteCard(card.id, this.props.listId)
+                }
+                OnClickModal={this.handleModalClick}
+              />
+            ))}
         </div>
         <div className="list-bottom">
           {this.state.visibleTextArea === true ? (
             <Textarea
               value={this.state.inputCardTitle}
               onCancelBtn={this.handleCancelBtn}
-              onAddBtn={this.handleAddToCard}
+              onAddBtn={() => {
+                this.props.createCard(
+                  this.state.inputCardTitle,
+                  this.props.listId
+                );
+                this.handleCancelBtn();
+              }}
               onTextarea={this.handleInputValue}
             />
           ) : (
@@ -135,7 +88,8 @@ class List extends Component {
         {this.state.showModal ? (
           <Modal
             onClickOutsideModal={this.closeModal}
-            cardDetail={this.state.cardDetails}
+            cardId={this.state.cardDetails.id}
+            cardName={this.state.cardDetails.name}
           />
         ) : null}
       </div>
@@ -143,4 +97,12 @@ class List extends Component {
   }
 }
 
-export default List;
+const mapStateToProps = (state) => {
+  return {
+    cards: state.card.cards,
+  };
+};
+
+export default connect(mapStateToProps, { fetchCards, createCard, deleteCard })(
+  List
+);

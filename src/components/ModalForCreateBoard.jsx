@@ -1,5 +1,4 @@
 import React from "react";
-import Textarea from "./Textarea";
 
 function ModalForCreateBoard(props) {
   return (

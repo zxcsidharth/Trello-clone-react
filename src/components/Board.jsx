@@ -1,33 +1,23 @@
 import React, { Component } from "react";
 import "../css/board.css";
 import List from "./List";
-import { APIkey, token, base_url } from "../constant";
+import { APIkey, token } from "../constant";
 import Textarea from "./Textarea";
 import Nav from "./Nav";
+import { connect } from "react-redux";
+import { fetchLists, createLists, deleteList } from "../actions/actionOnBoard";
 
 class Board extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      lists: [],
       showTextArea: false,
       inputListName: "",
       showBoardModal: false,
     };
   }
   componentDidMount() {
-    let url = `${base_url}/boards/${this.props.match.params.boardId}/lists?key=${APIkey}&token=${token}`;
-    fetch(url)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log("fetched List ");
-        this.setState({ lists: data });
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    this.props.fetchLists(this.props.match.params.boardId);
   }
   handleShowtextArea = () => {
     this.setState({ showTextArea: true });
@@ -38,34 +28,30 @@ class Board extends Component {
   handleInputValue = (e) => {
     this.setState({ inputListName: e.target.value });
   };
-  handleAddList = () => {
-    let url = `${base_url}/boards/${this.props.match.params.boardId}/lists?name=${this.state.inputListName}&key=${APIkey}&token=${token}`;
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        let lists = [...this.state.lists];
-        lists.push(data);
-        this.setState({ lists: lists, showTextArea: false });
-        console.log("Success:", data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
-  deleteList = (listId) => {
-    let url = `{base_url}/`;
-  };
   showBoardModals = () => {
     this.setState({ showBoardModal: true });
   };
   render() {
+    console.log(this.props.boards);
+    let color = "";
+    let image = "";
+    for (let board of this.props.boards) {
+      if (board.id === this.props.match.params.boardId) {
+        board.prefs.backgroundImage
+          ? (image = `${board.prefs.backgroundImage}?key=${APIkey}&token=${token}`)
+          : (color = board.prefs.backgroundColor);
+        break;
+      }
+    }
+    console.log(color, image);
     return (
-      <div className="boards" style={{ backgroundColor: "rgb(0, 121, 191)" }}>
+      <div
+        className="boards"
+        style={{
+          backgroundColor: `${color}`,
+          backgroundImage: `url(${image})`,
+        }}
+      >
         <Nav showBoardModals={this.showAllBoardModals} />
         <nav className="navbar bg-transparent board-nav">
           <div style={{ display: "flex" }}>
@@ -87,12 +73,12 @@ class Board extends Component {
           </div>
         </nav>
         <div className="all-lists">
-          {this.state.lists.map((list) => (
+          {this.props.lists.map((list) => (
             <List
               key={list.id}
               listId={list.id}
               listName={list.name}
-              onDeleteList={this.deleteList}
+              onDeleteList={() => this.props.deleteList(list.id)}
             />
           ))}
           <div className="add-list">
@@ -100,7 +86,13 @@ class Board extends Component {
               <Textarea
                 value={this.state.inputListName}
                 onCancelBtn={this.handleCancelBtn}
-                onAddBtn={this.handleAddList}
+                onAddBtn={() => {
+                  this.props.createLists(
+                    this.state.inputListName,
+                    this.props.match.params.boardId
+                  );
+                  this.handleCancelBtn();
+                }}
                 onTextarea={this.handleInputValue}
               />
             ) : (
@@ -115,4 +107,15 @@ class Board extends Component {
   }
 }
 
-export default Board;
+const mapStateToProps = (state) => {
+  return {
+    lists: state.list.lists,
+    boards: state.board.boards,
+  };
+};
+
+export default connect(mapStateToProps, {
+  fetchLists,
+  createLists,
+  deleteList,
+})(Board);

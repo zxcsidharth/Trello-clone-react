@@ -1,7 +1,6 @@
 .list {
   padding: 0px 0px;
   width: 20%;
-  /* max-height: 100vh; */
   margin-left: 10px;
   margin-bottom: 25px;
   display: inline-block;
@@ -13,6 +12,9 @@
 }
 .fa-trash {
   font-size: 1.3em;
+}
+.delete:focus {
+  outline: none;
 }
 .card-container {
   max-height: 64vh;

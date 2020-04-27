@@ -4,7 +4,7 @@ import "../css/textArea.css";
 function Textarea(props) {
   return (
     <div className="create-textarea" id="titleSpace">
-      <div className="form-group text-area">
+      <div className="form-group text-area mr-2">
         <textarea
           className="form-control"
           id="cardTitle"

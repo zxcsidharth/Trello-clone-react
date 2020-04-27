@@ -1,34 +1,22 @@
 import React, { Component } from "react";
-import { APIkey, token, base_url } from "../constant";
 import BoardsListCard from "./BoardsListCard";
 import "../css/boardContainer.css";
 import Nav from "./Nav";
 import ModalForCreateBoard from "./ModalForCreateBoard";
+import { connect } from "react-redux";
+import { fetchBoards, createBoard } from "../actions/actionOnBoardContainer";
 
 class BoardContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      boards: [],
       showCreateBoardPopup: false,
       boardInputText: "",
     };
   }
 
   componentDidMount() {
-    let url = `${base_url}members/me/boards?key=${APIkey}&token=${token}`;
-    console.log(url);
-    fetch(url)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log("successfully fetched");
-        this.setState({ boards: data });
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    this.props.fetchBoards();
   }
   showCreateBoardModal = () => {
     this.setState({ showCreateBoardPopup: true });
@@ -39,28 +27,8 @@ class BoardContainer extends Component {
   handleInputChange = (e) => {
     this.setState({ boardInputText: e.target.value });
   };
-  createBoard = () => {
-    let url = `${base_url}/boards?name=${this.state.boardInputText}&key=${APIkey}&token=${token}`;
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        let board = [...this.state.boards];
-        board.push(data);
-        this.setState({ showCreateBoardPopup: false });
-        this.setState({ boards: board });
-        console.log("Success:", data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
-
   render() {
+    console.log(this.props.boards);
     return (
       <React.Fragment>
         <Nav />
@@ -77,7 +45,7 @@ class BoardContainer extends Component {
                 <i className="fa fa-user mr-2"></i>Personal Boards
               </h4>
               <div className="board-cards">
-                {this.state.boards.map((board) => (
+                {this.props.boards.map((board) => (
                   <BoardsListCard
                     key={board.id}
                     boardName={board.name}
@@ -105,7 +73,10 @@ class BoardContainer extends Component {
           </div>
           {this.state.showCreateBoardPopup ? (
             <ModalForCreateBoard
-              onAddBoard={this.createBoard}
+              onAddBoard={() => {
+                this.props.createBoard(this.state.boardInputText);
+                this.handleCancelbtn();
+              }}
               oncancelBoardBtn={this.handleCancelbtn}
               onInputText={this.handleInputChange}
             />
@@ -116,4 +87,12 @@ class BoardContainer extends Component {
   }
 }
 
-export default BoardContainer;
+const mapStateToProps = (state) => {
+  return {
+    boards: state.board.boards,
+  };
+};
+
+export default connect(mapStateToProps, { fetchBoards, createBoard })(
+  BoardContainer
+);
