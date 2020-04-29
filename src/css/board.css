@@ -8,8 +8,6 @@ div::selection {
   height: 85vh;
 }
 .boards {
-  /* background-color: rgb(240, 153, 82); */
-  /* background-size: 100%; */
   background-repeat: no-repeat;
   background-size: cover;
 }
