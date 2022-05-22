@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import "../css/board.css";
 import List from "./List";
 import { APIkey, token } from "../constant";
@@ -7,104 +7,102 @@ import Nav from "./Nav";
 import { connect } from "react-redux";
 import { fetchLists, createLists, deleteList } from "../actions/actionOnBoard";
 
-class Board extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showTextArea: false,
-      inputListName: "",
-      showBoardModal: false,
-    };
-  }
-  componentDidMount() {
-    this.props.fetchLists(this.props.match.params.boardId);
-  }
-  handleShowtextArea = () => {
-    this.setState({ showTextArea: true });
+function Board(props) {
+  const [textArea, showTextArea] = useState(false);
+  const [inputListName, setInputListName] = useState("");
+  // const [boardModal, showBoardModal] = useState(false);
+
+  useEffect(() => {
+    props.fetchLists(props.match.params.boardId);
+  }, []);
+  const handleShowtextArea = () => {
+    showTextArea(true);
   };
-  handleCancelBtn = () => {
-    this.setState({ showTextArea: false });
+  const handleCancelBtn = () => {
+    showTextArea(false);
   };
-  handleInputValue = (e) => {
-    this.setState({ inputListName: e.target.value });
+  const handleInputValue = (e) => {
+    setInputListName(e.target.value);
   };
-  showBoardModals = () => {
-    this.setState({ showBoardModal: true });
-  };
-  render() {
-    console.log(this.props.boards);
-    let color = "";
-    let image = "";
-    for (let board of this.props.boards) {
-      if (board.id === this.props.match.params.boardId) {
-        board.prefs.backgroundImage
-          ? (image = `${board.prefs.backgroundImage}?key=${APIkey}&token=${token}`)
-          : (color = board.prefs.backgroundColor);
+  // const showBoardModals = () => {
+  //   showBoardModal(true);
+  // };
+  const prefrences = useMemo(() => {
+    for (let board of props.boards) {
+      if (board.id === props.match.params.boardId) {
+        if (board.prefs.backgroundImage) {
+          localStorage.setItem(
+            "backgroundImage",
+            `${board.prefs.backgroundImage}?key=${APIkey}&token=${token}`
+          );
+        } else {
+          localStorage.setItem("backgroundColor", board.prefs.backgroundColor);
+        }
         break;
       }
     }
-    console.log(color, image);
-    return (
-      <div
-        className="boards"
-        style={{
-          backgroundColor: `${color}`,
-          backgroundImage: `url(${image})`,
-        }}
-      >
-        <Nav showBoardModals={this.showAllBoardModals} />
-        <nav className="navbar bg-transparent board-nav">
-          <div style={{ display: "flex" }}>
-            <h5>{this.props.match.params.boardName}</h5>
-            <button className="navBtn trello-Boards mb-3 ml-3">
-              <i className="fa fa-star-o"></i>
-            </button>
-          </div>
-          <div className="board-header">
-            <button className="navBtn trello-Boards mb-3 ml-1">
-              <i className="fa fa-star-o"></i> Butler
-            </button>
-            <button className="navBtn trello-Boards mb-3 ml-1">
-              <i className="fa fa-slack"></i> Slack
-            </button>
-            <button className="navBtn trello-Boards mb-3 ml-1">
-              <i className="fa fa-ellipsis-h mr-2"></i> Show Menu
-            </button>
-          </div>
-        </nav>
-        <div className="all-lists">
-          {this.props.lists.map((list) => (
-            <List
-              key={list.id}
-              listId={list.id}
-              listName={list.name}
-              onDeleteList={() => this.props.deleteList(list.id)}
+    const image = localStorage.getItem("backgroundImage");
+    const color = localStorage.getItem("backgroundColor");
+    return { image, color };
+  }, []);
+
+  return (
+    <div
+      className="boards"
+      style={{
+        backgroundColor: `${prefrences?.color}`,
+        backgroundImage: `url(${prefrences?.image})`,
+      }}
+    >
+      <Nav />
+      <nav className="navbar bg-transparent board-nav">
+        <div style={{ display: "flex" }}>
+          <h5>{props.match.params.boardName}</h5>
+          <button className="navBtn trello-Boards mb-3 ml-3">
+            <i className="fa fa-star-o"></i>
+          </button>
+        </div>
+        <div className="board-header">
+          <button className="navBtn trello-Boards mb-3 ml-1">
+            <i className="fa fa-star-o"></i> Butler
+          </button>
+          <button className="navBtn trello-Boards mb-3 ml-1">
+            <i className="fa fa-slack"></i> Slack
+          </button>
+          <button className="navBtn trello-Boards mb-3 ml-1">
+            <i className="fa fa-ellipsis-h mr-2"></i> Show Menu
+          </button>
+        </div>
+      </nav>
+      <div className="all-lists">
+        {props.lists.map((list) => (
+          <List
+            key={list.id}
+            listId={list.id}
+            listName={list.name}
+            onDeleteList={() => props.deleteList(list.id)}
+          />
+        ))}
+        <div className="add-list">
+          {textArea === true ? (
+            <Textarea
+              value={inputListName}
+              onCancelBtn={handleCancelBtn}
+              onAddBtn={() => {
+                props.createLists(inputListName, props.match.params.boardId);
+                handleCancelBtn();
+              }}
+              onTextarea={handleInputValue}
             />
-          ))}
-          <div className="add-list">
-            {this.state.showTextArea === true ? (
-              <Textarea
-                value={this.state.inputListName}
-                onCancelBtn={this.handleCancelBtn}
-                onAddBtn={() => {
-                  this.props.createLists(
-                    this.state.inputListName,
-                    this.props.match.params.boardId
-                  );
-                  this.handleCancelBtn();
-                }}
-                onTextarea={this.handleInputValue}
-              />
-            ) : (
-              <button id="addAnotherList" onClick={this.handleShowtextArea}>
-                <span className="add-symbol mr-1">+</span>Add Another List
-              </button>
-            )}
-          </div>
+          ) : (
+            <button id="addAnotherList" onClick={handleShowtextArea}>
+              <span className="add-symbol mr-1">+</span>Add Another List
+            </button>
+          )}
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 const mapStateToProps = (state) => {

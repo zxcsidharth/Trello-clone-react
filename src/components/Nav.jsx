@@ -18,7 +18,7 @@ function Nav(props) {
         </Link>
         <button
           className="navBtn trello-Boards mb-3 ml-1"
-          onClick={props.showBoardModals}
+          // onClick={props.showBoardModals}
         >
           <i className="fa fa-trello mr-1"></i>
           <span>Boards</span>
