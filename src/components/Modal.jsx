@@ -2,39 +2,25 @@ import React, { Component } from "react";
 import "../css/modal.css";
 import "bootstrap/dist/css/bootstrap.css";
 import Textarea from "./Textarea";
-import {
-  APIkey,
-  token,
-  board_id,
-  list_id,
-  list_name,
-  base_url,
-} from "../constant";
 import CheckList from "./CheckList";
+import {
+  fetchChecklist,
+  addChecklist,
+  deleteChecklist,
+} from "../actions/actionOnCards";
+import { connect } from "react-redux";
 
 class Modal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      checkLists: [],
       showTextArea: false,
       inputCheckListValue: "",
     };
   }
 
   componentDidMount() {
-    let url = `${base_url}cards/${this.props.cardDetail.id}/checklists?key=${APIkey}&token=${token}`;
-    fetch(url)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log("successfully fetched");
-        this.setState({ checkLists: data });
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    this.props.fetchChecklist(this.props.cardId);
   }
   showTextAreaComponent = () => {
     this.setState({ showTextArea: true });
@@ -45,60 +31,26 @@ class Modal extends Component {
   handleAddChecklistInput = (e) => {
     this.setState({ inputCheckListValue: e.target.value });
   };
-  handleAddChecklist = () => {
-    let url = `${base_url}cards/${this.props.cardDetail.id}/checklists?name=${this.state.inputCheckListValue}&key=${APIkey}&token=${token}`;
-    console.log(url);
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        let newChecklist = [...this.state.checkLists];
-        newChecklist.push(data);
-        this.setState({ showTextArea: false, checkLists: newChecklist });
-        console.log("Success:", data.name);
-      })
-      .catch((error) => {
-        console.error("Error:", error.message);
-      });
-  };
-  deleteCheckList = (checkListId) => {
-    let url = `${base_url}cards/${this.props.cardDetail.id}/checklists/${checkListId}?key=${APIkey}&token=${token}`;
-    fetch(url, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        const newChecklist = this.state.checkLists.filter((checklistObj) => {
-          return checklistObj.id !== checkListId;
-        });
-        this.setState({ checkLists: newChecklist });
-        console.log("Successfully removed");
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
 
   render() {
-    const cardDetail = this.props.cardDetail;
+    const { cardId, cardName } = this.props;
     return (
       <div
         className="modal d-block"
         id="modalForCards"
         style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
+        onClick={this.props.onClickOutsideModal}
       >
         <div className="modal-dialog modal-lg">
-          <div className="modal-content">
+          <div
+            className="modal-content"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
             <div className="modal-header">
               <h5 className="modal-title" id="modalTitle">
-                {cardDetail.name}
+                {cardName}
               </h5>
               <button
                 type="button"
@@ -118,18 +70,26 @@ class Modal extends Component {
                 <Textarea
                   value={this.state.inputCheckListValue}
                   onTextarea={this.handleAddChecklistInput}
-                  onAddBtn={this.handleAddChecklist}
+                  onAddBtn={() => {
+                    this.props.addChecklist(
+                      cardId,
+                      this.state.inputCheckListValue
+                    );
+                    this.handleCancelBtn();
+                  }}
                   onCancelBtn={this.handleCancelBtn}
                 />
               )}
-              {this.state.checkLists.map((checklistObj) => (
+              {this.props.checklists.map((checklistObj) => (
                 <CheckList
                   key={checklistObj.id}
                   checklistTitle={checklistObj.name}
                   checkItems={checklistObj.checkItems}
                   checkListId={checklistObj.id}
-                  cardId={this.props.cardDetail.id}
-                  onDelete={this.deleteCheckList}
+                  cardId={cardId}
+                  onDelete={(checklistId) =>
+                    this.props.deleteChecklist(cardId, checklistId)
+                  }
                 />
               ))}
             </div>
@@ -139,4 +99,14 @@ class Modal extends Component {
     );
   }
 }
-export default Modal;
+
+const mapStateToProps = (state) => {
+  return {
+    checklists: state.checklist.checklists,
+  };
+};
+export default connect(mapStateToProps, {
+  fetchChecklist,
+  addChecklist,
+  deleteChecklist,
+})(Modal);

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import TextFieldForitems from "./TextFieldForItems";
 
 class CheckItems extends Component {
   constructor(props) {
@@ -9,14 +8,7 @@ class CheckItems extends Component {
       updateItemInputValue: "",
     };
   }
-  handleTextAreaValue = (e) => {
-    this.setState({ updateItemInputValue: e.target.value });
-  };
-  handleUpdateItems = () => {};
-  handleDeleteItems = () => {};
-  handleCancelBtn = () => {
-    this.setState({ showTextArea: false });
-  };
+
   render() {
     return (
       <div className="form-check">
@@ -62,7 +54,7 @@ class CheckItems extends Component {
             <input
               className="form-control checkItem mb-2"
               type="text"
-              onChange={this.props.textAreaChange}
+              onChange={this.props.inputValueChange}
             />
             <button
               type="button"
@@ -72,7 +64,7 @@ class CheckItems extends Component {
               Update
             </button>
             <button
-              className="btn btn-secondary delete-checkItem"
+              className="btn btn-secondary delete-checkItem mr-2"
               type="button"
               onClick={() => this.props.onDelete(this.props.id)}
             >

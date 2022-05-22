@@ -1,14 +1,16 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.css';
-import Nav from './components/Nav';
-import List from './components/List';
+import React from "react";
+import "bootstrap/dist/css/bootstrap.css";
+import Board from "./components/Board";
+import BoardContainer from "./components/BoardContainer";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 function App() {
   return (
     <React.Fragment>
-      <Nav value = {"header"}/>
-      <Nav value = {"sidharth_app"}/>
-      <List />
+      <Router>
+        <Route exact path="/" component={BoardContainer} />
+        <Route path="/:boardId/:boardName" component={Board} />
+      </Router>
     </React.Fragment>
   );
 }

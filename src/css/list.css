@@ -1,19 +1,27 @@
 .list {
   padding: 0px 0px;
   width: 20%;
-  /* max-height: 100vh; */
   margin-left: 10px;
   margin-bottom: 25px;
+  display: inline-block;
+  vertical-align: top;
+}
+.list-top {
+  display: flex;
+  justify-content: space-between;
+}
+.fa-trash {
+  font-size: 1.3em;
+}
+.delete:focus {
+  outline: none;
 }
 .card-container {
-  max-height: 70vh;
+  max-height: 64vh;
   width: 100%;
-  overflow: auto;
-  margin-top: 0.6rem;
+  overflow-y: auto;
 }
-.delete-card {
-  height: 2rem;
-}
+
 .card {
   margin: auto 0.5rem 0.3rem 0.5rem;
   display: grid;
@@ -22,18 +30,20 @@
 }
 .card-body {
   cursor: pointer;
+  white-space: normal;
   color: #172b4d;
   font-size: 0.9rem;
   padding: 0.4rem 1rem 0.4rem 0.3rem;
+  overflow: hidden;
 }
 .list-bottom {
-  margin-top: 0.8rem;
-  padding-bottom: 0.8rem;
+  margin-top: 0.2rem;
+  padding-bottom: 0.3rem;
   margin-left: 0.5rem;
 }
 #addAnotherCard {
   color: #5e6c84;
-  padding: 0.4rem 0.4rem;
+  /* padding: 0.3rem 0.4rem; */
   padding-right: 5rem;
   border: none;
   background-color: transparent;
@@ -44,7 +54,4 @@
   background-color: rgba(9, 30, 66, 0.08);
   color: #172b4d;
   border-radius: 0.3rem;
-}
-.delete-card {
-  height: 2rem;
 }

@@ -1,6 +1,5 @@
 import React from "react";
 import "../css/list.css";
-// import "bootstrap/dist/css/bootstrap.css";
 
 function Card(props) {
   return (
@@ -8,17 +7,15 @@ function Card(props) {
       <div
         className="card-body"
         data-cardid={props.card.id}
-        data-toggle="modal"
-        data-target="#modalForCards"
         onClick={() => props.OnClickModal(props.card)}
       >
         {props.card.name}
       </div>
       <button
-        className="btn btn-light delete-card"
+        className="button delete"
         onClick={() => props.onDelete(props.card.id)}
       >
-        X
+        <i className="fa fa-trash"></i>
       </button>
     </div>
   );
