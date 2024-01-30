@@ -2,7 +2,15 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../css/boardContainer.css";
 import { APIkey, token } from "../constant";
-function BoardsListCard(props) {
+
+interface BoardListCardProps { 
+    id: string,
+    boardName: string, 
+    image: string,
+    color: string 
+  }
+
+function BoardsListCard(props: BoardListCardProps) {
   return (
     <Link
       to={`/${props.id}/${props.boardName}`}

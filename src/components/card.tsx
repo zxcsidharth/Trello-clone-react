@@ -1,7 +1,12 @@
 import React from "react";
 import "../css/list.css";
 
-function Card(props) {
+interface CardProps {
+  card: { id: string; name: string}; 
+  OnClickModal: (arg0: {id: string; name: string}) => void; 
+  onDelete: (arg0: string) => Promise<void>;
+}
+function Card(props: CardProps) {
   return (
     <div className="card">
       <div

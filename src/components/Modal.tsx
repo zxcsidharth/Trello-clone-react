@@ -10,8 +10,21 @@ import {
 } from "../actions/actionOnCards";
 import { connect } from "react-redux";
 
-class Modal extends Component {
-  constructor(props) {
+interface ModalProps {
+  fetchChecklist: (arg0: string) => Promise<void>;
+  cardId: string; 
+  cardName: string; 
+  onClickOutsideModal: () => void;
+  addChecklist: (arg0: string, arg1: string) => Promise<void>;
+  checklists: [];
+  deleteChecklist: (arg0: string, arg1: string) => Promise<void>;
+}
+interface ModalStates {
+  showTextArea: boolean,
+  inputCheckListValue: string
+}
+class Modal extends Component<ModalProps, ModalStates> {
+  constructor(props: ModalProps) {
     super(props);
     this.state = {
       showTextArea: false,
@@ -28,7 +41,7 @@ class Modal extends Component {
   handleCancelBtn = () => {
     this.setState({ showTextArea: false });
   };
-  handleAddChecklistInput = (e) => {
+  handleAddChecklistInput = (e: { target: { value: any; }; }) => {
     this.setState({ inputCheckListValue: e.target.value });
   };
 
@@ -68,7 +81,7 @@ class Modal extends Component {
                 </button>
               ) : (
                 <Textarea
-                  value={this.state.inputCheckListValue}
+                // buttonTitle={this.state.inputCheckListValue}
                   onTextarea={this.handleAddChecklistInput}
                   onAddBtn={() => {
                     this.props.addChecklist(
@@ -80,14 +93,14 @@ class Modal extends Component {
                   onCancelBtn={this.handleCancelBtn}
                 />
               )}
-              {this.props.checklists.map((checklistObj) => (
+              {this.props.checklists.map((checklistObj: { id: string, name: string; checkItems: []}) => (
                 <CheckList
                   key={checklistObj.id}
                   checklistTitle={checklistObj.name}
                   checkItems={checklistObj.checkItems}
                   checkListId={checklistObj.id}
                   cardId={cardId}
-                  onDelete={(checklistId) =>
+                  onDelete={(checklistId: any) =>
                     this.props.deleteChecklist(cardId, checklistId)
                   }
                 />
@@ -100,7 +113,7 @@ class Modal extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: { checklist: { checklists: any; }; }) => {
   return {
     checklists: state.checklist.checklists,
   };

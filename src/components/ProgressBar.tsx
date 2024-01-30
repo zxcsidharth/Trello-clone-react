@@ -1,9 +1,14 @@
 import React from "react";
 
-function ProgressBar(props) {
-  let { itemCount, checkItems } = props;
+interface ProgressProp {
+  itemCount: number,
+  checkItems: [],
+  checkedItemCount: number
+}
+function ProgressBar(props: ProgressProp) {
+  let { itemCount, checkItems = [] } = props || {};
   let checkedItemCount = 0;
-  props.checkItems.forEach((item) => {
+ checkItems.forEach((item: {state: string}) => {
     if (item.state === "complete") {
       checkedItemCount++;
     }
@@ -22,9 +27,9 @@ function ProgressBar(props) {
       <div
         className="progress-bar"
         role="progressbar"
-        aria-valuenow={calcPercentage}
-        aria-valuemin="0"
-        aria-valuemax="100"
+        // aria-valuenow={calcPercentage}
+        // aria-valuemin="0"
+        // aria-valuemax="100"
         style={{ width: `${calcPercentage}%` }}
       >
         {`${calcPercentage}%`}

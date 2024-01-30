@@ -6,16 +6,17 @@ import Modal from "./Modal";
 import { fetchCards, createCard, deleteCard } from "../actions/actionOnList";
 import { connect } from "react-redux";
 
-function List(props) {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     visibleTextArea: false,
-  //     inputCardTitle: "",
-  //     showModal: false,
-  //     cardDetails: { id: "", name: "" },
-  //   };
-  // }
+interface ListProps {
+  cards: any;
+  fetchCards: (arg0: string) => Promise<void>;
+  listId: string;
+  listName: string;
+  onDeleteList: (arg0: string) => void;
+  deleteCard: (arg0: string, arg1: string) => Promise<void>;
+  createCard: (arg0: string, arg1: string) => Promise<void>;
+
+}
+function List(props: ListProps) {
   const [textArea, showTextArea] = useState(false);
   const [displayModal, showModal] = useState(false);
   const [inputCardTitle, setInputCardTitle] = useState("");
@@ -24,16 +25,16 @@ function List(props) {
   useEffect(() => {
     props.fetchCards(props.listId);
   }, []);
-  const handleAddCards = (e) => {
+  const handleAddCards = () => {
     showTextArea(true);
   };
   const handleCancelBtn = () => {
     showTextArea(false);
   };
-  const handleInputValue = (e) => {
+  const handleInputValue = (e: { target: { value: string }; }) => {
     setInputCardTitle(e.target.value);
   };
-  const handleModalClick = (cardDetail) => {
+  const handleModalClick = (cardDetail: { id: string; name: string; }) => {
     let cardDet = { ...cardDetails };
     cardDet.id = cardDetail.id;
     cardDet.name = cardDetail.name;
@@ -58,7 +59,7 @@ function List(props) {
       </div>
       <div className="card-container">
         {props.cards[props.listId] !== undefined &&
-          props.cards[props.listId].map((card) => (
+          props.cards[props.listId].map((card: { id: string; name: string }) => (
             <Card
               key={card.id}
               card={card}
@@ -70,7 +71,7 @@ function List(props) {
       <div className="list-bottom">
         {textArea === true ? (
           <Textarea
-            value={inputCardTitle}
+          // buttonTitle={inputCardTitle}
             onCancelBtn={handleCancelBtn}
             onAddBtn={() => {
               props.createCard(inputCardTitle, props.listId);
@@ -95,7 +96,7 @@ function List(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: { card: { cards: any; }; }) => {
   return {
     cards: state.card.cards,
   };

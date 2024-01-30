@@ -1,7 +1,12 @@
-import React from "react";
+import React, { ChangeEventHandler, MouseEventHandler } from "react";
 import "../css/textArea.css";
 
-function Textarea(props) {
+interface PropTypes {
+  onTextarea: ChangeEventHandler<HTMLTextAreaElement>;
+  onCancelBtn: MouseEventHandler<HTMLButtonElement>;
+  onAddBtn: () => void;
+}
+function Textarea(props: PropTypes) {
   return (
     <div className="create-textarea" id="titleSpace">
       <div className="form-group text-area mr-2">
@@ -16,7 +21,7 @@ function Textarea(props) {
         className="btn btn-success mr-1"
         onClick={props.onAddBtn}
       >
-        Add {props.buttonTitle}
+        Add
       </button>
       <button
         type="button"
