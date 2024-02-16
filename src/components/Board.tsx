@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import React, { useState, useEffect, useMemo } from "react";
 import "../css/board.css";
 import List from "./List";
@@ -7,10 +8,23 @@ import Nav from "./Nav";
 import { connect } from "react-redux";
 import { fetchLists, createLists, deleteList } from "../actions/actionOnBoard";
 
-function Board(props) {
+interface BoardProps {
+  fetchLists: (arg0: string) => void; 
+  match: { 
+    params: { 
+      boardId: string; 
+      boardName: string | undefined;
+      }; 
+    }
+  boards: any; 
+  lists: any[];
+  deleteList: (arg0: string) => any; 
+  createLists: (arg0: string, arg1: string) => void;
+}
+
+function Board(props: BoardProps) {
   const [textArea, showTextArea] = useState(false);
   const [inputListName, setInputListName] = useState("");
-  // const [boardModal, showBoardModal] = useState(false);
 
   useEffect(() => {
     props.fetchLists(props.match.params.boardId);
@@ -21,12 +35,10 @@ function Board(props) {
   const handleCancelBtn = () => {
     showTextArea(false);
   };
-  const handleInputValue = (e) => {
+  const handleInputValue = (e: { target: { value: string }; }) => {
     setInputListName(e.target.value);
   };
-  // const showBoardModals = () => {
-  //   showBoardModal(true);
-  // };
+
   const prefrences = useMemo(() => {
     for (let board of props.boards) {
       if (board.id === props.match.params.boardId) {
@@ -86,7 +98,7 @@ function Board(props) {
         <div className="add-list">
           {textArea === true ? (
             <Textarea
-              value={inputListName}
+            // buttonTitle={inputListName}
               onCancelBtn={handleCancelBtn}
               onAddBtn={() => {
                 props.createLists(inputListName, props.match.params.boardId);
@@ -105,7 +117,7 @@ function Board(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: { list: { lists: any; }; board: { boards: any; }; }) => {
   return {
     lists: state.list.lists,
     boards: state.board.boards,

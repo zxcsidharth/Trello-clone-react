@@ -6,7 +6,15 @@ import ModalForCreateBoard from "./ModalForCreateBoard";
 import { connect } from "react-redux";
 import { fetchBoards, createBoard } from "../actions/actionOnBoardContainer";
 
-function BoardContainer(props) {
+type BoardContainerProps = {
+  fetchBoards: () => void,
+  boards: any[],
+   createBoard: (arg0: string) => void,
+
+}
+type BoardItems = { id: string, name: string, prefs: { backgroundImage: string, backgroundColor: string}};
+
+function BoardContainer(props: BoardContainerProps) {
   const [createBoardPopUp, showModal] = useState(false);
   const [boardInputText, setBoardInputText] = useState("");
 
@@ -20,7 +28,7 @@ function BoardContainer(props) {
   const handleCancelbtn = () => {
     showModal(false);
   };
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
     setBoardInputText(e.target.value);
   };
 
@@ -41,7 +49,7 @@ function BoardContainer(props) {
               <i className="fa fa-user mr-2"></i>Personal Boards
             </h4>
             <div className="board-cards">
-              {props.boards.map((board) => (
+              {props.boards.map((board: BoardItems) => (
                 <BoardsListCard
                   key={board.id}
                   boardName={board.name}
@@ -82,7 +90,7 @@ function BoardContainer(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: { board: { boards: any; }; }) => {
   return {
     boards: state.board.boards,
   };

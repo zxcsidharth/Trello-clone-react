@@ -1,7 +1,24 @@
 import React, { Component } from "react";
 
-class CheckItems extends Component {
-  constructor(props) {
+interface CheckItemsProp {
+  itemStates: string,
+  onCheckBoxUpdate: (arg0: string, arg1: string) => void,
+  handleUpdate: (arg0: string) => void,
+  itemName: string,
+  showUpdateFields: boolean,
+  id: string,
+  clickedItemId: string,
+  inputValueChange: (arg0: any) => void,
+  onUpdate: (arg0: string) => void,
+  onDelete: (arg0: string) => void,
+  onCancelBtn: () => void,
+}
+interface CheckItemState {
+  showTextArea: boolean,
+      updateItemInputValue: string,
+}
+class CheckItems extends Component <CheckItemsProp, CheckItemState> {
+  constructor(props: CheckItemsProp) {
     super(props);
     this.state = {
       showTextArea: false,

@@ -12,8 +12,29 @@ import {
 } from "../actions/actionOnChecklist";
 import { connect } from "react-redux";
 
-class CheckList extends Component {
-  constructor(props) {
+interface CheckListProps {
+  getCheckItems: (arg0:[], arg1: string) => void,
+  checkItems: [],
+  checkitems:any,
+  checkListId: string,
+  checklistTitle: string,
+  onDelete: (arg0: string) => void,
+  updateCheckItem: (arg0: string, arg1: string, arg3: string) => void,
+  cardId: string,
+  deleteCheckitem: (arg0: string, arg1: string) => void,
+  markCheckUncheck: (arg0: string, arg1: string, arg3: {}) => void,
+  addCheckItem: (arg0: string, arg1: string) => void,
+}
+interface ChecklistState {
+  showTextArea: boolean,
+      checkItemsInputForUpdate: string,
+      checkItemId: string,
+      showAddItemTextArea: boolean,
+      addItemsInputValue: string,
+      checkedItemCount: number,
+}
+class CheckList extends Component<CheckListProps, ChecklistState> {
+  constructor(props: CheckListProps) {
     super(props);
     this.state = {
       showTextArea: false,
@@ -27,19 +48,19 @@ class CheckList extends Component {
   componentDidMount() {
     this.props.getCheckItems(this.props.checkItems, this.props.checkListId);
   }
-  showTextAreaField = (itemId) => {
+  showTextAreaField = (itemId: any) => {
     this.setState({ showTextArea: true, checkItemId: itemId });
   };
   handleCancelBtn = () => {
     this.setState({ showTextArea: false });
   };
-  changeUpdateInputValue = (e) => {
+  changeUpdateInputValue = (e: { target: { value: any }}) => {
     this.setState({ checkItemsInputForUpdate: e.target.value });
   };
   handleAddItems = () => {
     this.setState({ showAddItemTextArea: true });
   };
-  textareaValueChange = (e) => {
+  textareaValueChange = (e: { target: { value: any; }; }) => {
     this.setState({ addItemsInputValue: e.target.value });
   };
   addItemsTextAreaCancelBtn = () => {
@@ -67,7 +88,7 @@ class CheckList extends Component {
             />
           ) : null}
           {this.props.checkitems[this.props.checkListId] &&
-            this.props.checkitems[this.props.checkListId].map((checkitem) => (
+            this.props.checkitems[this.props.checkListId].map((checkitem: { id: string, name: string; state: string}) => (
               <CheckItems
                 key={checkitem.id}
                 itemName={checkitem.name}
@@ -108,9 +129,8 @@ class CheckList extends Component {
                 this.state.addItemsInputValue
               );
               this.addItemsTextAreaCancelBtn();
-            }}
-            onCancelBtn={this.addItemsTextAreaCancelBtn}
-          />
+            } }
+            onCancelBtn={this.addItemsTextAreaCancelBtn} />
         ) : (
           <button
             className="button add-items mt-3"
@@ -124,7 +144,7 @@ class CheckList extends Component {
   }
 }
 
-const mapStateToprops = (state) => {
+const mapStateToprops = (state: { checkitem: { checkitems: any; }; }) => {
   return { checkitems: state.checkitem.checkitems };
 };
 export default connect(mapStateToprops, {
