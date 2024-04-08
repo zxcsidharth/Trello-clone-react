@@ -57,6 +57,28 @@ export const createCard = (cardName, listId) => {
     }
   };
 };
+export const updateCard = ({ pos, cardId, listId, name }) => {
+  let url = `${base_url}cards/${cardId}?idList=${listId}&key=${APIkey}&token=${token}`;
+  if (pos) {
+    url = url.concat(`&pos=${pos}`);
+  }
+  if (name) {
+    url = url.concat(`&name=${name}`);
+  }
+  return async (dispatch) => {
+    try {
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      return response.json();
+    } catch (error) {
+      dispatch(getCardFailure());
+    }
+  };
+};
 
 export const deleteCard = (cardId, listId) => {
   let url = `${base_url}cards/${cardId}?key=${APIkey}&token=${token}`;

@@ -24,3 +24,8 @@ export const FETCH_CHECKITEMS = "FETCH_CHECKITEMS";
 export const ADD_CHECKITEM = "ADD_CHECKITEM";
 export const DELETE_CHECKITEM = "DELETE_CHECKITEM";
 export const UPDATE_CHECKITEM = "UPDATE_CHECKITEM";
+
+export const TOP_LEFT = "topLeft";
+export const BOTTOM_LEFT = "bottomLeft";
+export const TOP_RIGHT = "topRight";
+export const BOTTOM_RIGHT = "bottomRight";

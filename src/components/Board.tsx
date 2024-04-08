@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import "../css/board.css";
-import List from "./List";
+import List, { CardObj } from "./List";
 import { APIkey, token } from "../constant";
 import Textarea from "./Textarea";
 import Nav from "./Nav";
@@ -25,6 +25,7 @@ interface BoardProps {
 function Board(props: BoardProps) {
   const [textArea, showTextArea] = useState(false);
   const [inputListName, setInputListName] = useState("");
+const dragCardRef = useRef<CardObj|null>(null);
 
   useEffect(() => {
     props.fetchLists(props.match.params.boardId);
@@ -38,7 +39,12 @@ function Board(props: BoardProps) {
   const handleInputValue = (e: { target: { value: string }; }) => {
     setInputListName(e.target.value);
   };
-
+const setDragCardData = (data: CardObj|null) => {
+  dragCardRef.current = data
+}
+const getDragCardData = () => {
+  return dragCardRef.current;
+ }
   const prefrences = useMemo(() => {
     for (let board of props.boards) {
       if (board.id === props.match.params.boardId) {
@@ -93,6 +99,8 @@ function Board(props: BoardProps) {
             listId={list.id}
             listName={list.name}
             onDeleteList={() => props.deleteList(list.id)}
+            setDragCardData={setDragCardData}
+            getDragCardData={getDragCardData}
           />
         ))}
         <div className="add-list">
