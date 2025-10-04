@@ -1,0 +1,109 @@
+.sidebar-menu {
+    width: 200px;
+    background-color: #f4f5f7;
+    border-radius: 8px;
+    padding: 8px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .menu-section {
+    margin-bottom: 16px;
+  }
+
+  .menu-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px 4px;
+    margin-bottom: 4px;
+  }
+
+  .section-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #5e6c84;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .menu-item {
+    border-radius: 4px;
+    margin-bottom: 2px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .menu-item:hover,
+  .menu-item.hovered {
+    background-color: #e4e6ea;
+  }
+
+  .menu-item-content {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    position: relative;
+  }
+
+  .menu-icon {
+    color: #5e6c84;
+    margin-right: 12px;
+    flex-shrink: 0;
+    font-size: 14px;
+    width: 16px;
+    text-align: center;
+  }
+
+  .menu-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #172b4d;
+    flex: 1;
+  }
+
+  .badge-new {
+    background-color: #0079bf;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: 8px;
+  }
+
+  /* Specific icon adjustments to match the original */
+  .menu-item:nth-child(1) .menu-icon {
+    transform: rotate(0deg);
+  }
+
+  /* Hover effects */
+  .menu-item:hover .menu-icon {
+    color: #42526e;
+  }
+
+  .menu-item:hover .menu-label {
+    color: #091e42;
+  }
+
+  /* Active state simulation */
+  .menu-item:active {
+    background-color: #ddd;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .sidebar-menu {
+      width: 180px;
+    }
+    
+    .menu-label {
+      font-size: 13px;
+    }
+  }

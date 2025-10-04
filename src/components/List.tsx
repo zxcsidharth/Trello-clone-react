@@ -5,6 +5,7 @@ import Textarea from "./Textarea";
 import Modal from "./Modal";
 import { fetchCards, createCard, deleteCard, updateCard } from "../actions/actionOnList";
 import { connect } from "react-redux";
+import ModalV2 from "./ModalV2";
 
 export interface CardObj {
   name: string,
@@ -200,7 +201,7 @@ const handleOnDragLeave = (e: any, listId: string) => {
   }
 }
 
-// Isme ek aur bug hai ki agar list empty hai and then usme kuch v drag kar rhe hain to uss case me nai drag n drop nai ho raha hai.
+// Isme ek aur bug hai ki agar list empty hai and then usme kuch v drag kar rhe hain to uss case me nai drag n drop nai ho raha hai. 
   return (
     <div ref={listRef} className="jumbotron list droppable" 
         onDragOver={(e) => handleOnDragOver(e, props.listId)} 
@@ -248,7 +249,7 @@ const handleOnDragLeave = (e: any, listId: string) => {
         )}
       </div>
       {displayModal ? (
-        <Modal
+        <ModalV2
           onClickOutsideModal={closeModal}
           cardId={cardDetails.id}
           cardName={cardDetails.name}

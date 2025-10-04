@@ -57,7 +57,8 @@ export const createCard = (cardName, listId) => {
     }
   };
 };
-export const updateCard = ({ pos, cardId, listId, name }) => {
+export const updateCard = (param) => {
+  const { pos, cardId, listId, name } = param || {};
   let url = `${base_url}cards/${cardId}?idList=${listId}&key=${APIkey}&token=${token}`;
   if (pos) {
     url = url.concat(`&pos=${pos}`);
